@@ -1,6 +1,7 @@
 import 'package:uritu_app/services/auth/auth_user.dart';
 
 abstract class AuthProvider {
+  Future<void> initialize();
   AuthUser? get currentUser;
   Future<AuthUser> logIn({
     required String email,
@@ -10,6 +11,6 @@ abstract class AuthProvider {
     required String email,
     required String password,
   });
-  Future<void> logout();
+  Future<void> logOut();
   Future<void> sendEmailVerification();
 }
