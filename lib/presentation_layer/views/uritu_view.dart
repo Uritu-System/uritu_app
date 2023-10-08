@@ -8,6 +8,7 @@ import 'package:uritu_app/data_layer/data_model.dart';
 import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:uritu_app/presentation_layer/components/show_log_out_dialog.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 class UrituView extends StatefulWidget {
   const UrituView({super.key});
@@ -18,6 +19,14 @@ class UrituView extends StatefulWidget {
 
 class _UrituViewState extends State<UrituView> {
   String translated = 'Translation';
+  final FlutterTts flutterTts = FlutterTts();
+  final TextEditingController textEditingController = TextEditingController();
+
+  speak(String text) async {
+    await flutterTts.setLanguage("es-ES");
+    await flutterTts.setPitch(1); //0.5 to 1.5
+    await flutterTts.speak(text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +66,9 @@ class _UrituViewState extends State<UrituView> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const Text('Quechua (qu)'),
+          const Text('Quechua'),
           const SizedBox(height: 8),
-          TextField(
+          TextFormField(
             style: const TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.bold,
@@ -79,6 +88,7 @@ class _UrituViewState extends State<UrituView> {
                 'source': spanishCodeTranslation,
                 'key': '',
                 //TODO: Change Apikeytranslations
+                // descomenta lo de abajo
                 // 'key': cloudTranslationApiKey,
               });
 
@@ -99,6 +109,7 @@ class _UrituViewState extends State<UrituView> {
           const Divider(
             height: 32,
           ),
+          const Text('Español'),
           Text(
             translated,
             style: const TextStyle(
@@ -106,7 +117,14 @@ class _UrituViewState extends State<UrituView> {
               color: Colors.lightBlue,
               fontWeight: FontWeight.bold,
             ),
-          )
+          ),
+          TextFormField(
+            controller: textEditingController,
+          ),
+          TextButton(
+            onPressed: () => speak(textEditingController.text),
+            child: const Text('Text to speech'),
+          ),
         ],
       ),
     );
