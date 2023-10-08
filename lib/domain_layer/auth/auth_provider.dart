@@ -1,4 +1,4 @@
-import 'package:uritu_app/services/auth/auth_user.dart';
+import 'package:uritu_app/data_layer/auth_user_model.dart';
 
 abstract class AuthProvider {
   Future<void> initialize();

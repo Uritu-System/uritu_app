@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:uritu_app/constants/routes.dart';
-import 'package:uritu_app/services/auth/auth_exceptions.dart';
-import 'package:uritu_app/services/auth/auth_service.dart';
-import 'package:uritu_app/utilities/show_error_dialog.dart';
+import 'package:uritu_app/common/constants/routes.dart';
+import 'package:uritu_app/common/exceptions/auth_exceptions.dart';
+import 'package:uritu_app/domain_layer/auth/auth_service.dart';
+import 'package:uritu_app/presentation_layer/components/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});

@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:uritu_app/constants/routes.dart';
-import 'package:uritu_app/enums/menu_action.dart';
-import 'package:uritu_app/model/data_model.dart';
-import 'package:uritu_app/services/auth/auth_service.dart';
+import 'package:uritu_app/common/constants/routes.dart';
+import 'package:uritu_app/common/constants/translator_key.dart';
+import 'package:uritu_app/common/enums/menu_action.dart';
+import 'package:uritu_app/data_layer/data_model.dart';
+import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:uritu_app/presentation_layer/components/show_log_out_dialog.dart';
 
 class UrituView extends StatefulWidget {
   const UrituView({super.key});
@@ -66,10 +68,6 @@ class _UrituViewState extends State<UrituView> {
               hintText: 'Enter Text',
             ),
             onChanged: (text) async {
-              const apiKeyTranslation = '';
-              // 'AIzaSyBREdPiXiX2AF5uaGGz34U9517aaWW_kbU';
-              const to = 'qu';
-              const source = 'es';
               final url = Uri.https(
                 'translation.googleapis.com',
                 '/language/translate/v2',
@@ -77,9 +75,11 @@ class _UrituViewState extends State<UrituView> {
 
               final response = await http.post(url, body: {
                 'q': text,
-                'target': to,
-                'source': source,
-                'key': apiKeyTranslation,
+                'target': quechuaCodeTranslation,
+                'source': spanishCodeTranslation,
+                'key': '',
+                //TODO: Change Apikeytranslations
+                // 'key': cloudTranslationApiKey,
               });
 
               var translationJson =
@@ -111,30 +111,4 @@ class _UrituViewState extends State<UrituView> {
       ),
     );
   }
-}
-
-Future<bool> showLogOutDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text('Sign Out'),
-        content: const Text('Are you sure you want to sign out?'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: const Text('Log out'),
-          ),
-        ],
-      );
-    },
-  ).then((value) => value ?? false);
 }

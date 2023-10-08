@@ -1,6 +1,6 @@
-import 'package:uritu_app/services/auth/auth_provider.dart';
-import 'package:uritu_app/services/auth/auth_user.dart';
-import 'package:uritu_app/services/auth/firebase_auth_provider.dart';
+import 'package:uritu_app/domain_layer/auth/auth_provider.dart';
+import 'package:uritu_app/data_layer/auth_user_model.dart';
+import 'package:uritu_app/domain_layer/auth/firebase_auth_provider.dart';
 
 class AuthService implements AuthProvider {
   final AuthProvider provider;
