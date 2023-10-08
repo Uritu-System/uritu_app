@@ -20,7 +20,7 @@ class UrituView extends StatefulWidget {
 class _UrituViewState extends State<UrituView> {
   String translated = 'Translation';
   final FlutterTts flutterTts = FlutterTts();
-  final TextEditingController textEditingController = TextEditingController();
+  // final TextEditingController textEditingController = TextEditingController();
 
   speak(String text) async {
     await flutterTts.setLanguage("es-ES");
@@ -86,10 +86,10 @@ class _UrituViewState extends State<UrituView> {
                 'q': text,
                 'target': quechuaCodeTranslation,
                 'source': spanishCodeTranslation,
-                'key': '',
+                // 'key': '',
                 //TODO: Change Apikeytranslations
                 // descomenta lo de abajo
-                // 'key': cloudTranslationApiKey,
+                'key': cloudTranslationApiKey,
               });
 
               var translationJson =
@@ -118,11 +118,11 @@ class _UrituViewState extends State<UrituView> {
               fontWeight: FontWeight.bold,
             ),
           ),
-          TextFormField(
-            controller: textEditingController,
-          ),
+          // TextFormField(
+          //   controller: textEditingController,
+          // ),
           TextButton(
-            onPressed: () => speak(textEditingController.text),
+            onPressed: () => speak(translated),
             child: const Text('Text to speech'),
           ),
         ],
