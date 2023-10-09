@@ -18,9 +18,8 @@ class UrituView extends StatefulWidget {
 }
 
 class _UrituViewState extends State<UrituView> {
-  String translated = 'Translation';
+  String translated = 'Tikray';
   final FlutterTts flutterTts = FlutterTts();
-  // final TextEditingController textEditingController = TextEditingController();
 
   speak(String text) async {
     await flutterTts.setLanguage("es-ES");
@@ -56,7 +55,7 @@ class _UrituViewState extends State<UrituView> {
               return const [
                 PopupMenuItem<MenuAction>(
                   value: MenuAction.logout,
-                  child: Text('Log Out'),
+                  child: Text('Cerrar Sesión'),
                 ),
               ];
             },
@@ -66,7 +65,7 @@ class _UrituViewState extends State<UrituView> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const Text('Quechua'),
+          const Text('Español'),
           const SizedBox(height: 8),
           TextFormField(
             style: const TextStyle(
@@ -74,7 +73,7 @@ class _UrituViewState extends State<UrituView> {
               fontWeight: FontWeight.bold,
             ),
             decoration: const InputDecoration(
-              hintText: 'Enter Text',
+              hintText: 'Traducción',
             ),
             onChanged: (text) async {
               final url = Uri.https(
@@ -109,7 +108,7 @@ class _UrituViewState extends State<UrituView> {
           const Divider(
             height: 32,
           ),
-          const Text('Español'),
+          const Text('Quechua'),
           Text(
             translated,
             style: const TextStyle(
@@ -121,9 +120,9 @@ class _UrituViewState extends State<UrituView> {
           // TextFormField(
           //   controller: textEditingController,
           // ),
-          TextButton(
+          IconButton.filled(
             onPressed: () => speak(translated),
-            child: const Text('Text to speech'),
+            icon: const Icon(Icons.volume_up),
           ),
         ],
       ),

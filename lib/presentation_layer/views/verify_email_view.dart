@@ -15,19 +15,19 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        title: const Text('Verify Email'),
+        title: const Text('Verificación'),
       ),
       body: Column(
         children: [
           const Text(
-              "We've sent you an email verification. Please open it to verify your account."),
+              "Le hemos enviado una verificación por correo electrónico. Ábralo para verificar su cuenta."),
           const Text(
-              "If you haven't recived a verification email yet, press the button below"),
+              "Si aún no ha recibido un correo electrónico de verificación, presione el botón a continuación"),
           TextButton(
             onPressed: () async {
               AuthService.firebase().sendEmailVerification();
             },
-            child: const Text('Send email verification'),
+            child: const Text('Enviar correo de verificación'),
           ),
           TextButton(
             onPressed: () async {
@@ -37,7 +37,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                     .pushNamedAndRemoveUntil(registerRoute, (route) => false);
               }
             },
-            child: const Text('Restart'),
+            child: const Text('Volver'),
           )
         ],
       ),

@@ -35,7 +35,7 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        title: const Text('Register'),
+        title: const Text('Registro'),
       ),
       body: Column(
         children: [
@@ -45,7 +45,7 @@ class _RegisterViewState extends State<RegisterView> {
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
-              hintText: 'Enter email',
+              hintText: 'Ingresar correo',
             ),
           ),
           TextField(
@@ -54,7 +54,7 @@ class _RegisterViewState extends State<RegisterView> {
             enableSuggestions: false,
             autocorrect: false,
             decoration: const InputDecoration(
-              hintText: 'Enter password',
+              hintText: 'Ingresar contraseña',
             ),
           ),
           TextButton(
@@ -72,33 +72,33 @@ class _RegisterViewState extends State<RegisterView> {
                 if (context.mounted) {
                   await showErrorDialog(
                     context,
-                    'Weak password',
+                    'Contraseña débil',
                   );
                 }
               } on EmailAlreadyInUseAuthException {
                 if (context.mounted) {
                   await showErrorDialog(
                     context,
-                    'Email already in use',
+                    'Correo ya en uso',
                   );
                 }
               } on InvalidEmailAuthException {
                 if (context.mounted) {
                   await showErrorDialog(
                     context,
-                    'Invalid email',
+                    'Correo inválido',
                   );
                 }
               } on GenericAuthException {
                 if (context.mounted) {
                   await showErrorDialog(
                     context,
-                    'Failed to register',
+                    'Registro fallido',
                   );
                 }
               }
             },
-            child: const Text('Register'),
+            child: const Text('Registrarse'),
           ),
           TextButton(
             onPressed: () {
@@ -107,7 +107,7 @@ class _RegisterViewState extends State<RegisterView> {
                 (route) => false,
               );
             },
-            child: const Text('Already registered? Login here!'),
+            child: const Text('Ya registrado? Inicia sesión aquí!'),
           )
         ],
       ),

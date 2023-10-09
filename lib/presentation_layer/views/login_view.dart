@@ -34,7 +34,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         elevation: 2,
-        title: const Text('Login'),
+        title: const Text('Inicio de Sesión'),
       ),
       body: Column(
         children: [
@@ -44,7 +44,7 @@ class _LoginViewState extends State<LoginView> {
             autocorrect: false,
             keyboardType: TextInputType.emailAddress,
             decoration: const InputDecoration(
-              hintText: 'Enter email',
+              hintText: 'Ingresar correo',
             ),
           ),
           TextField(
@@ -53,7 +53,7 @@ class _LoginViewState extends State<LoginView> {
             enableSuggestions: false,
             autocorrect: false,
             decoration: const InputDecoration(
-              hintText: 'Enter password',
+              hintText: 'Ingresar contraseña',
             ),
           ),
           TextButton(
@@ -84,26 +84,26 @@ class _LoginViewState extends State<LoginView> {
                 if (context.mounted) {
                   await showErrorDialog(
                     context,
-                    'No user found for that email.',
+                    'Usuario no encontrado.',
                   );
                 }
               } on WrongPasswordAuthException {
                 if (context.mounted) {
                   await showErrorDialog(
                     context,
-                    'Wrong credentials',
+                    'Credenciale incorrectas',
                   );
                 }
               } on GenericAuthException {
                 if (context.mounted) {
                   await showErrorDialog(
                     context,
-                    'Authentication Error',
+                    'Error de Autenticación',
                   );
                 }
               }
             },
-            child: const Text('Login'),
+            child: const Text('Iniciar Sesión'),
           ),
           TextButton(
             onPressed: () {
@@ -112,7 +112,7 @@ class _LoginViewState extends State<LoginView> {
                 (route) => false,
               );
             },
-            child: const Text('Not registered yet? Register here!'),
+            child: const Text('No registrado aún? Registrate aquí!'),
           )
         ],
       ),

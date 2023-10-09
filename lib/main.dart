@@ -11,7 +11,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Uritu App',
       darkTheme: ThemeData(
         colorScheme: darkColorScheme,
         useMaterial3: true,
