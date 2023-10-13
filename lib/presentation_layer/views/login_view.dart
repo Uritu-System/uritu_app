@@ -36,85 +36,92 @@ class _LoginViewState extends State<LoginView> {
         elevation: 2,
         title: const Text('Inicio de Sesión'),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _email,
-            enableSuggestions: false,
-            autocorrect: false,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: 'Ingresar correo',
+      body: SingleChildScrollView(
+        padding:
+            const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 32,
             ),
-          ),
-          TextField(
-            controller: _password,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: const InputDecoration(
-              hintText: 'Ingresar contraseña',
+            TextField(
+              controller: _email,
+              enableSuggestions: false,
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                hintText: 'Ingresar correo',
+              ),
             ),
-          ),
-          TextButton(
-            onPressed: () async {
-              final email = _email.text;
-              final password = _password.text;
-              try {
-                await AuthService.firebase()
-                    .logIn(email: email, password: password);
+            TextField(
+              controller: _password,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              decoration: const InputDecoration(
+                hintText: 'Ingresar contraseña',
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                final email = _email.text;
+                final password = _password.text;
+                try {
+                  await AuthService.firebase()
+                      .logIn(email: email, password: password);
 
-                final user = AuthService.firebase().currentUser;
-                if (user?.isEmailVerified ?? false) {
+                  final user = AuthService.firebase().currentUser;
+                  if (user?.isEmailVerified ?? false) {
+                    if (context.mounted) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        urituRoute,
+                        (route) => false,
+                      );
+                    }
+                  } else {
+                    if (context.mounted) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        verifyEmailRoute,
+                        (route) => false,
+                      );
+                    }
+                  }
+                } on UserNotFoundAuthException {
                   if (context.mounted) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      urituRoute,
-                      (route) => false,
+                    await showErrorDialog(
+                      context,
+                      'Usuario no encontrado.',
                     );
                   }
-                } else {
+                } on WrongPasswordAuthException {
                   if (context.mounted) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      verifyEmailRoute,
-                      (route) => false,
+                    await showErrorDialog(
+                      context,
+                      'Credenciale incorrectas',
+                    );
+                  }
+                } on GenericAuthException {
+                  if (context.mounted) {
+                    await showErrorDialog(
+                      context,
+                      'Error de Autenticación',
                     );
                   }
                 }
-              } on UserNotFoundAuthException {
-                if (context.mounted) {
-                  await showErrorDialog(
-                    context,
-                    'Usuario no encontrado.',
-                  );
-                }
-              } on WrongPasswordAuthException {
-                if (context.mounted) {
-                  await showErrorDialog(
-                    context,
-                    'Credenciale incorrectas',
-                  );
-                }
-              } on GenericAuthException {
-                if (context.mounted) {
-                  await showErrorDialog(
-                    context,
-                    'Error de Autenticación',
-                  );
-                }
-              }
-            },
-            child: const Text('Iniciar Sesión'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                registerRoute,
-                (route) => false,
-              );
-            },
-            child: const Text('No registrado aún? Registrate aquí!'),
-          )
-        ],
+              },
+              child: const Text('Iniciar Sesión'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  registerRoute,
+                  (route) => false,
+                );
+              },
+              child: const Text('No registrado aún? Registrate aquí!'),
+            )
+          ],
+        ),
       ),
     );
   }

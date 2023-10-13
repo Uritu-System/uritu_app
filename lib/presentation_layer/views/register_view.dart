@@ -37,79 +37,86 @@ class _RegisterViewState extends State<RegisterView> {
         elevation: 2,
         title: const Text('Registro'),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: _email,
-            enableSuggestions: false,
-            autocorrect: false,
-            keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(
-              hintText: 'Ingresar correo',
+      body: SingleChildScrollView(
+        padding:
+            const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 32,
             ),
-          ),
-          TextField(
-            controller: _password,
-            obscureText: true,
-            enableSuggestions: false,
-            autocorrect: false,
-            decoration: const InputDecoration(
-              hintText: 'Ingresar contraseña',
+            TextField(
+              controller: _email,
+              enableSuggestions: false,
+              autocorrect: false,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                hintText: 'Ingresar correo',
+              ),
             ),
-          ),
-          TextButton(
-            onPressed: () async {
-              final email = _email.text;
-              final password = _password.text;
-              try {
-                await AuthService.firebase()
-                    .createUser(email: email, password: password);
-                AuthService.firebase().sendEmailVerification();
-                if (context.mounted) {
-                  Navigator.of(context).pushNamed(verifyEmailRoute);
+            TextField(
+              controller: _password,
+              obscureText: true,
+              enableSuggestions: false,
+              autocorrect: false,
+              decoration: const InputDecoration(
+                hintText: 'Ingresar contraseña',
+              ),
+            ),
+            TextButton(
+              onPressed: () async {
+                final email = _email.text;
+                final password = _password.text;
+                try {
+                  await AuthService.firebase()
+                      .createUser(email: email, password: password);
+                  AuthService.firebase().sendEmailVerification();
+                  if (context.mounted) {
+                    Navigator.of(context).pushNamed(verifyEmailRoute);
+                  }
+                } on WeakPasswordAuthException {
+                  if (context.mounted) {
+                    await showErrorDialog(
+                      context,
+                      'Contraseña débil',
+                    );
+                  }
+                } on EmailAlreadyInUseAuthException {
+                  if (context.mounted) {
+                    await showErrorDialog(
+                      context,
+                      'Correo ya en uso',
+                    );
+                  }
+                } on InvalidEmailAuthException {
+                  if (context.mounted) {
+                    await showErrorDialog(
+                      context,
+                      'Correo inválido',
+                    );
+                  }
+                } on GenericAuthException {
+                  if (context.mounted) {
+                    await showErrorDialog(
+                      context,
+                      'Registro fallido',
+                    );
+                  }
                 }
-              } on WeakPasswordAuthException {
-                if (context.mounted) {
-                  await showErrorDialog(
-                    context,
-                    'Contraseña débil',
-                  );
-                }
-              } on EmailAlreadyInUseAuthException {
-                if (context.mounted) {
-                  await showErrorDialog(
-                    context,
-                    'Correo ya en uso',
-                  );
-                }
-              } on InvalidEmailAuthException {
-                if (context.mounted) {
-                  await showErrorDialog(
-                    context,
-                    'Correo inválido',
-                  );
-                }
-              } on GenericAuthException {
-                if (context.mounted) {
-                  await showErrorDialog(
-                    context,
-                    'Registro fallido',
-                  );
-                }
-              }
-            },
-            child: const Text('Registrarse'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                loginRoute,
-                (route) => false,
-              );
-            },
-            child: const Text('Ya registrado? Inicia sesión aquí!'),
-          )
-        ],
+              },
+              child: const Text('Registrarse'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  loginRoute,
+                  (route) => false,
+                );
+              },
+              child: const Text('Ya registrado? Inicia sesión aquí!'),
+            )
+          ],
+        ),
       ),
     );
   }
