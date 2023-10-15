@@ -16,10 +16,7 @@ void main() {
         colorScheme: darkColorScheme,
         useMaterial3: true,
       ),
-      // home: const RegisterView(),
       home: const HomePage(),
-      // home: const LoginView(),
-      // home: const VerifyEmailView(),
       initialRoute: '/',
       routes: {
         loginRoute: (context) => const LoginView(),

@@ -137,7 +137,6 @@ class _UrituViewState extends State<UrituView> {
         padding:
             const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /* ********************************* ESPAÑOL ******************************** */
