@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uritu_app/common/colors/color_schemes.g.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:uritu_app/common/theme/color_schemes.dart';
 import 'package:uritu_app/common/constants/routes.dart';
 import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 import 'package:uritu_app/presentation_layer/views/login_view.dart';
@@ -12,9 +13,14 @@ void main() {
   runApp(
     MaterialApp(
       title: 'Uritu App',
-      darkTheme: ThemeData(
-        colorScheme: darkColorScheme,
+      theme: ThemeData(
         useMaterial3: true,
+        colorScheme: lightColorScheme,
+        textTheme: GoogleFonts.hankenGroteskTextTheme(),
+      ),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: darkColorScheme,
       ),
       home: const HomePage(),
       initialRoute: '/',

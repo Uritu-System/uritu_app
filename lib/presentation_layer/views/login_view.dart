@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uritu_app/common/constants/routes.dart';
 import 'package:uritu_app/common/exceptions/auth_exceptions.dart';
+import 'package:uritu_app/common/theme/font_theme.dart';
 import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 import 'package:uritu_app/presentation_layer/components/show_error_dialog.dart';
 
@@ -33,8 +34,11 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
-        title: const Text('Inicio de Sesión'),
+        elevation: 25,
+        title: const Text(
+          'Inicio de Sesión',
+          style: CustomTextStyle.appBarStyle,
+        ),
       ),
       body: SingleChildScrollView(
         padding:
@@ -50,8 +54,14 @@ class _LoginViewState extends State<LoginView> {
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
+                icon: Icon(Icons.mail),
+                labelText: 'Correo',
                 hintText: 'Ingresar correo',
               ),
+              style: CustomTextStyle.textField,
+            ),
+            const SizedBox(
+              height: 12,
             ),
             TextField(
               controller: _password,
@@ -59,8 +69,14 @@ class _LoginViewState extends State<LoginView> {
               enableSuggestions: false,
               autocorrect: false,
               decoration: const InputDecoration(
+                icon: Icon(Icons.password),
+                labelText: 'Contraseña',
                 hintText: 'Ingresar contraseña',
               ),
+              style: CustomTextStyle.textField,
+            ),
+            const SizedBox(
+              height: 18,
             ),
             TextButton(
               onPressed: () async {
@@ -109,7 +125,14 @@ class _LoginViewState extends State<LoginView> {
                   }
                 }
               },
-              child: const Text('Iniciar Sesión'),
+              child: const Text(
+                'Iniciar Sesión',
+                style: CustomTextStyle.button,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(
+              height: 12,
             ),
             TextButton(
               onPressed: () {
@@ -118,7 +141,11 @@ class _LoginViewState extends State<LoginView> {
                   (route) => false,
                 );
               },
-              child: const Text('No registrado aún? Registrate aquí!'),
+              child: const Text(
+                'Registrarse',
+                style: CustomTextStyle.button,
+                textAlign: TextAlign.center,
+              ),
             )
           ],
         ),

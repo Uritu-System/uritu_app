@@ -6,6 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:uritu_app/common/constants/path_audio.dart';
 import 'package:uritu_app/common/constants/routes.dart';
 import 'package:uritu_app/common/enums/menu_action.dart';
+import 'package:uritu_app/common/theme/font_theme.dart';
 import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 import 'package:uritu_app/domain_layer/translation/translation.dart';
 import 'package:uritu_app/presentation_layer/components/show_log_out_dialog.dart';
@@ -103,8 +104,11 @@ class _UrituViewState extends State<UrituView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        elevation: 2,
-        title: const Text('Uritu'),
+        elevation: 25,
+        title: const Text(
+          'Uritu',
+          style: CustomTextStyle.appBarStyle,
+        ),
         actions: [
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
@@ -133,128 +137,141 @@ class _UrituViewState extends State<UrituView> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: ListView(
         padding:
             const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /* ********************************* ESPAÑOL ******************************** */
-            const SizedBox(
-              height: 32,
-            ),
-            const Text(
-              'Español',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /* ************************************************************************** */
+              /*                                PRIMER IDIOMA                               */
+              /* ************************************************************************** */
+              const Text(
+                'Español',
+                style: CustomTextStyle.language,
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.left,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            TextFormField(
-              controller: _textEditingController,
-              style: const TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
+              const SizedBox(
+                height: 8,
               ),
-              maxLines: null,
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                hintText: 'Traducción',
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (text) async {
-                String textUpdate = await translateQuechuaToSpanish(
-                    _textEditingController.text);
-                setState(() {
-                  _textTranslated = textUpdate;
-                });
-              },
-            ),
-            /* ********************************* QUECHUA ******************************** */
-            const SizedBox(
-              height: 32,
-            ),
-            const Text(
-              'Quechua',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.left,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Text(
-                    _textTranslated,
-                    style: const TextStyle(
-                      fontSize: 36,
-                      color: Colors.lightBlue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
+              TextFormField(
+                controller: _textEditingController,
+                style: CustomTextStyle.textNormal,
+                maxLines: null,
+                textAlign: TextAlign.center,
+                decoration: const InputDecoration(
+                  hintText: 'Traducción',
+                  border: OutlineInputBorder(),
                 ),
-                IconButton.filled(
-                  onPressed: () => speak(_textTranslated),
-                  icon: const Icon(Icons.volume_up),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            /* ******************************* MICROPHONE ******************************* */
-            Align(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                onChanged: (text) async {
+                  String textUpdate = await translateQuechuaToSpanish(
+                      _textEditingController.text);
+                  setState(() {
+                    _textTranslated = textUpdate;
+                  });
+                },
+              ),
+              /* ************************************************************************** */
+              /*                                     FIN                                    */
+              /* ************************************************************************** */
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /* ************************************************************************** */
+              /*                               SEGUNDO IDIOMA                               */
+              /* ************************************************************************** */
+              const Text(
+                'Quechua',
+                style: CustomTextStyle.language,
+                textAlign: TextAlign.left,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  ElevatedButton(
-                    child: Icon(
-                      recorder.isRecording ? Icons.stop : Icons.mic,
-                      size: 50,
+                  Expanded(
+                    child: Text(
+                      _textTranslated,
+                      style: CustomTextStyle.textNormal,
+                      textAlign: TextAlign.center,
                     ),
-                    onPressed: () async {
-                      if (recorder.isRecording) {
-                        await stop();
-                      } else {
-                        await record();
-                      }
-                      setState(() {});
-                    },
                   ),
-                  StreamBuilder<RecordingDisposition>(
-                    stream: recorder.onProgress,
-                    builder: (context, snapshot) {
-                      final duration = snapshot.hasData
-                          ? snapshot.data!.duration
-                          : Duration.zero;
-                      String twoDigits(int n) => n.toString().padLeft(2, '0');
-                      final twoDigitMinutes =
-                          twoDigits(duration.inMinutes.remainder(60));
-                      final twoDigitSeconds =
-                          twoDigits(duration.inSeconds.remainder(60));
-                      return Text(
-                        '$twoDigitMinutes:$twoDigitSeconds',
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      );
-                    },
+                  IconButton(
+                    onPressed: () => speak(_textTranslated),
+                    icon: const Icon(
+                      Icons.volume_up,
+                      size: 36,
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
+              /* ************************************************************************** */
+              /*                                     FIN                                    */
+              /* ************************************************************************** */
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              /* ************************************************************************** */
+              /*                                TERCERA PARTE                               */
+              /* ************************************************************************** */
+              ElevatedButton(
+                style: FilledButton.styleFrom(
+                  shape: const CircleBorder(),
+                  padding: const EdgeInsets.all(24),
+                ),
+                child: Icon(
+                  recorder.isRecording ? Icons.stop : Icons.mic,
+                  size: 50,
+                ),
+                onPressed: () async {
+                  if (recorder.isRecording) {
+                    await stop();
+                  } else {
+                    await record();
+                  }
+                  setState(() {});
+                },
+              ),
+              StreamBuilder<RecordingDisposition>(
+                stream: recorder.onProgress,
+                builder: (context, snapshot) {
+                  final duration = snapshot.hasData
+                      ? snapshot.data!.duration
+                      : Duration.zero;
+                  String twoDigits(int n) => n.toString().padLeft(2, '0');
+                  final twoDigitMinutes =
+                      twoDigits(duration.inMinutes.remainder(60));
+                  final twoDigitSeconds =
+                      twoDigits(duration.inSeconds.remainder(60));
+                  return Text(
+                    '$twoDigitMinutes:$twoDigitSeconds',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                },
+              ),
+              /* ************************************************************************** */
+              /*                                     FIN                                    */
+              /* ************************************************************************** */
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+        ],
       ),
     );
   }
