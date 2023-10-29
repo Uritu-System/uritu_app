@@ -6,6 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:uritu_app/common/constants/path_audio.dart';
 import 'package:uritu_app/common/constants/routes.dart';
 import 'package:uritu_app/common/enums/menu_action.dart';
+import 'package:uritu_app/common/theme/font_theme.dart';
 import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 import 'package:uritu_app/domain_layer/translation/translation.dart';
 import 'package:uritu_app/presentation_layer/components/show_log_out_dialog.dart';
@@ -103,8 +104,11 @@ class _UrituViewState extends State<UrituView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        elevation: 2,
-        title: const Text('Uritu'),
+        elevation: 25,
+        title: const Text(
+          'Uritu',
+          style: CustomTextStyle.appBarStyle,
+        ),
         actions: [
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
@@ -133,89 +137,94 @@ class _UrituViewState extends State<UrituView> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding:
-            const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /* ********************************* ESPAÑOL ******************************** */
-            const SizedBox(
-              height: 32,
-            ),
-            const Text(
-              'Español',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.left,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            TextFormField(
-              controller: _textEditingController,
-              style: const TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-              ),
-              maxLines: null,
-              textAlign: TextAlign.center,
-              decoration: const InputDecoration(
-                hintText: 'Traducción',
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (text) async {
-                String textUpdate = await translateQuechuaToSpanish(
-                    _textEditingController.text);
-                setState(() {
-                  _textTranslated = textUpdate;
-                });
-              },
-            ),
-            /* ********************************* QUECHUA ******************************** */
-            const SizedBox(
-              height: 32,
-            ),
-            const Text(
-              'Quechua',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.left,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: Text(
-                    _textTranslated,
-                    style: const TextStyle(
-                      fontSize: 36,
-                      color: Colors.lightBlue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                IconButton.filled(
-                  onPressed: () => speak(_textTranslated),
-                  icon: const Icon(Icons.volume_up),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            /* ******************************* MICROPHONE ******************************* */
-            Align(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Container(
+        color: Colors.amber,
+        padding: EdgeInsets.all(30.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  /* ************************************************************************** */
+                  /*                                PRIMER IDIOMA                               */
+                  /* ************************************************************************** */
+                  const Text(
+                    'Español',
+                    style: CustomTextStyle.language,
+                    textAlign: TextAlign.left,
+                  ),
+                  TextFormField(
+                    controller: _textEditingController,
+                    style: CustomTextStyle.textNormal,
+                    maxLines: null,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      hintText: 'Traducción',
+                      border: OutlineInputBorder(),
+                    ),
+                    onChanged: (text) async {
+                      String textUpdate = await translateQuechuaToSpanish(
+                          _textEditingController.text);
+                      setState(() {
+                        _textTranslated = textUpdate;
+                      });
+                    },
+                  ),
+                  /* ************************************************************************** */
+                  /*                                     FIN                                    */
+                  /* ************************************************************************** */
+                ],
+              ),
+
+              Column(
+                children: [
+                  /* ************************************************************************** */
+                  /*                               SEGUNDO IDIOMA                               */
+                  /* ************************************************************************** */
+                  const Text(
+                    'Quechua',
+                    style: CustomTextStyle.language,
+                    textAlign: TextAlign.left,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _textTranslated,
+                          style: CustomTextStyle.textNormal,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => speak(_textTranslated),
+                        icon: const Icon(
+                          Icons.volume_up,
+                          size: 36,
+                        ),
+                      ),
+                    ],
+                  ),
+                  /* ************************************************************************** */
+                  /*                                     FIN                                    */
+                  /* ************************************************************************** */
+                ],
+              ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              Column(
+                children: [
+                  /* ************************************************************************** */
+                  /*                                TERCERA PARTE                               */
+                  /* ************************************************************************** */
                   ElevatedButton(
+                    style: FilledButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(24),
+                    ),
                     child: Icon(
                       recorder.isRecording ? Icons.stop : Icons.mic,
                       size: 50,
@@ -250,10 +259,13 @@ class _UrituViewState extends State<UrituView> {
                       );
                     },
                   ),
+                  /* ************************************************************************** */
+                  /*                                     FIN                                    */
+                  /* ************************************************************************** */
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

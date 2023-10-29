@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uritu_app/common/constants/routes.dart';
+import 'package:uritu_app/common/theme/font_theme.dart';
 import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 
 class VerifyEmailView extends StatefulWidget {
@@ -14,8 +15,11 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 2,
-        title: const Text('Verificación'),
+        elevation: 25,
+        title: const Text(
+          'Verificación',
+          style: CustomTextStyle.appBarStyle,
+        ),
       ),
       body: SingleChildScrollView(
         padding:
@@ -48,18 +52,18 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
               const SizedBox(
                 height: 25,
               ),
-              TextButton(
-                onPressed: () async {
-                  AuthService.firebase().sendEmailVerification();
-                },
-                child: const Text(
-                  'Enviar correo de verificación',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              // TextButton(
+              //   onPressed: () async {
+              //     AuthService.firebase().sendEmailVerification();
+              //   },
+              //   child: const Text(
+              //     'Enviar correo de verificación',
+              //     style: TextStyle(
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
               TextButton(
                 onPressed: () async {
                   await AuthService.firebase().logOut();
