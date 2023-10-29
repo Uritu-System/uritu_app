@@ -137,141 +137,136 @@ class _UrituViewState extends State<UrituView> {
           ),
         ],
       ),
-      body: ListView(
-        padding:
-            const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      body: Container(
+        color: Colors.amber,
+        padding: EdgeInsets.all(30.0),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              /* ************************************************************************** */
-              /*                                PRIMER IDIOMA                               */
-              /* ************************************************************************** */
-              const Text(
-                'Español',
-                style: CustomTextStyle.language,
-                textAlign: TextAlign.left,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              TextFormField(
-                controller: _textEditingController,
-                style: CustomTextStyle.textNormal,
-                maxLines: null,
-                textAlign: TextAlign.center,
-                decoration: const InputDecoration(
-                  hintText: 'Traducción',
-                  border: OutlineInputBorder(),
-                ),
-                onChanged: (text) async {
-                  String textUpdate = await translateQuechuaToSpanish(
-                      _textEditingController.text);
-                  setState(() {
-                    _textTranslated = textUpdate;
-                  });
-                },
-              ),
-              /* ************************************************************************** */
-              /*                                     FIN                                    */
-              /* ************************************************************************** */
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /* ************************************************************************** */
-              /*                               SEGUNDO IDIOMA                               */
-              /* ************************************************************************** */
-              const Text(
-                'Quechua',
-                style: CustomTextStyle.language,
-                textAlign: TextAlign.left,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+              Column(
+                // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Text(
-                      _textTranslated,
-                      style: CustomTextStyle.textNormal,
-                      textAlign: TextAlign.center,
-                    ),
+                  /* ************************************************************************** */
+                  /*                                PRIMER IDIOMA                               */
+                  /* ************************************************************************** */
+                  const Text(
+                    'Español',
+                    style: CustomTextStyle.language,
+                    textAlign: TextAlign.left,
                   ),
-                  IconButton(
-                    onPressed: () => speak(_textTranslated),
-                    icon: const Icon(
-                      Icons.volume_up,
-                      size: 36,
+                  TextFormField(
+                    controller: _textEditingController,
+                    style: CustomTextStyle.textNormal,
+                    maxLines: null,
+                    textAlign: TextAlign.center,
+                    decoration: const InputDecoration(
+                      hintText: 'Traducción',
+                      border: OutlineInputBorder(),
                     ),
+                    onChanged: (text) async {
+                      String textUpdate = await translateQuechuaToSpanish(
+                          _textEditingController.text);
+                      setState(() {
+                        _textTranslated = textUpdate;
+                      });
+                    },
                   ),
+                  /* ************************************************************************** */
+                  /*                                     FIN                                    */
+                  /* ************************************************************************** */
                 ],
               ),
-              /* ************************************************************************** */
-              /*                                     FIN                                    */
-              /* ************************************************************************** */
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              /* ************************************************************************** */
-              /*                                TERCERA PARTE                               */
-              /* ************************************************************************** */
-              ElevatedButton(
-                style: FilledButton.styleFrom(
-                  shape: const CircleBorder(),
-                  padding: const EdgeInsets.all(24),
-                ),
-                child: Icon(
-                  recorder.isRecording ? Icons.stop : Icons.mic,
-                  size: 50,
-                ),
-                onPressed: () async {
-                  if (recorder.isRecording) {
-                    await stop();
-                  } else {
-                    await record();
-                  }
-                  setState(() {});
-                },
+
+              Column(
+                children: [
+                  /* ************************************************************************** */
+                  /*                               SEGUNDO IDIOMA                               */
+                  /* ************************************************************************** */
+                  const Text(
+                    'Quechua',
+                    style: CustomTextStyle.language,
+                    textAlign: TextAlign.left,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          _textTranslated,
+                          style: CustomTextStyle.textNormal,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      IconButton(
+                        onPressed: () => speak(_textTranslated),
+                        icon: const Icon(
+                          Icons.volume_up,
+                          size: 36,
+                        ),
+                      ),
+                    ],
+                  ),
+                  /* ************************************************************************** */
+                  /*                                     FIN                                    */
+                  /* ************************************************************************** */
+                ],
               ),
-              StreamBuilder<RecordingDisposition>(
-                stream: recorder.onProgress,
-                builder: (context, snapshot) {
-                  final duration = snapshot.hasData
-                      ? snapshot.data!.duration
-                      : Duration.zero;
-                  String twoDigits(int n) => n.toString().padLeft(2, '0');
-                  final twoDigitMinutes =
-                      twoDigits(duration.inMinutes.remainder(60));
-                  final twoDigitSeconds =
-                      twoDigits(duration.inSeconds.remainder(60));
-                  return Text(
-                    '$twoDigitMinutes:$twoDigitSeconds',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              Column(
+                children: [
+                  /* ************************************************************************** */
+                  /*                                TERCERA PARTE                               */
+                  /* ************************************************************************** */
+                  ElevatedButton(
+                    style: FilledButton.styleFrom(
+                      shape: const CircleBorder(),
+                      padding: const EdgeInsets.all(24),
                     ),
-                  );
-                },
+                    child: Icon(
+                      recorder.isRecording ? Icons.stop : Icons.mic,
+                      size: 50,
+                    ),
+                    onPressed: () async {
+                      if (recorder.isRecording) {
+                        await stop();
+                      } else {
+                        await record();
+                      }
+                      setState(() {});
+                    },
+                  ),
+                  StreamBuilder<RecordingDisposition>(
+                    stream: recorder.onProgress,
+                    builder: (context, snapshot) {
+                      final duration = snapshot.hasData
+                          ? snapshot.data!.duration
+                          : Duration.zero;
+                      String twoDigits(int n) => n.toString().padLeft(2, '0');
+                      final twoDigitMinutes =
+                          twoDigits(duration.inMinutes.remainder(60));
+                      final twoDigitSeconds =
+                          twoDigits(duration.inSeconds.remainder(60));
+                      return Text(
+                        '$twoDigitMinutes:$twoDigitSeconds',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      );
+                    },
+                  ),
+                  /* ************************************************************************** */
+                  /*                                     FIN                                    */
+                  /* ************************************************************************** */
+                ],
               ),
-              /* ************************************************************************** */
-              /*                                     FIN                                    */
-              /* ************************************************************************** */
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-        ],
+        ),
       ),
     );
   }
