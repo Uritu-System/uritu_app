@@ -1,4 +1,5 @@
 const loginRoute = '/login/';
 const registerRoute = '/register/';
-const urituRoute = '/uritu/';
+const urituSpanishRoute = '/uritu-spanish/';
+const urituQuechuaRoute = '/uritu-quechua/';
 const verifyEmailRoute = '/verify-email/';

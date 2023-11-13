@@ -90,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                   if (user?.isEmailVerified ?? false) {
                     if (context.mounted) {
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                        urituRoute,
+                        urituSpanishRoute,
                         (route) => false,
                       );
                     }

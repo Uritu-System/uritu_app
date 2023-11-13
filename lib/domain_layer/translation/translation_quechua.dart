@@ -3,15 +3,16 @@ import 'package:http/http.dart' as http;
 import 'package:uritu_app/common/constants/translator_key.dart';
 import 'package:uritu_app/data_layer/data_model.dart';
 
-Future<String> translateQuechuaToSpanish(String stringTranslate) async {
+Future<String> translateQuechua(String stringTranslate) async {
   final url = Uri.https(
     'translation.googleapis.com',
     '/language/translate/v2',
   );
+
   final response = await http.post(url, body: {
     'q': stringTranslate,
-    'target': quechuaCodeTranslation,
-    'source': spanishCodeTranslation,
+    'target': spanishCodeTranslation,
+    'source': quechuaCodeTranslation,
     'key': cloudTranslationApiKey,
   });
 
