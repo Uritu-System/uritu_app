@@ -179,22 +179,15 @@ class _UrituQuechuaViewState extends State<UrituQuechuaView> {
                     ),
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: MediaQuery.of(context).size.height * 0.05,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(1000.0),
-                    color: _updateButtonColor(context),
+                ElevatedButton(
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.all(12),
                   ),
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          urituSpanishRoute, (route) => false);
-                    },
-                    icon: const Icon(
-                      Icons.autorenew,
-                    ),
-                  ),
+                  onPressed: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        urituSpanishRoute, (route) => false);
+                  },
+                  child: const Icon(Icons.autorenew),
                 ),
                 const Expanded(
                   child: Center(
