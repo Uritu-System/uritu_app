@@ -5,7 +5,8 @@ import 'package:uritu_app/common/constants/routes.dart';
 import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 import 'package:uritu_app/presentation_layer/views/login_view.dart';
 import 'package:uritu_app/presentation_layer/views/register_view.dart';
-import 'package:uritu_app/presentation_layer/views/uritu_view.dart';
+import 'package:uritu_app/presentation_layer/views/uritu_quechua_spanish_view.dart';
+import 'package:uritu_app/presentation_layer/views/uritu_spanish_quechua_view.dart';
 import 'package:uritu_app/presentation_layer/views/verify_email_view.dart';
 
 void main() {
@@ -27,7 +28,8 @@ void main() {
       routes: {
         loginRoute: (context) => const LoginView(),
         registerRoute: (context) => const RegisterView(),
-        urituRoute: (context) => const UrituView(),
+        urituSpanishRoute: (context) => const UrituSpanishView(),
+        urituQuechuaRoute: (context) => const UrituQuechuaView(),
         verifyEmailRoute: (context) => const VerifyEmailView(),
       },
     ),
@@ -47,7 +49,8 @@ class HomePage extends StatelessWidget {
             final user = AuthService.firebase().currentUser;
             if (user != null) {
               if (user.isEmailVerified) {
-                return const UrituView();
+                // return const UrituSpanishView();
+                return const UrituQuechuaView();
               } else {
                 return const VerifyEmailView();
               }
@@ -55,7 +58,14 @@ class HomePage extends StatelessWidget {
               return const LoginView();
             }
           default:
-            return const CircularProgressIndicator();
+            return const Scaffold(
+              body: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [CircularProgressIndicator()],
+                ),
+              ),
+            );
         }
       },
     );

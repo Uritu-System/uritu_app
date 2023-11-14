@@ -6,7 +6,7 @@ class CustomTextStyle {
   );
 
   static const TextStyle textNormal = TextStyle(
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: FontWeight.bold,
   );
   static const TextStyle dialog = TextStyle(
