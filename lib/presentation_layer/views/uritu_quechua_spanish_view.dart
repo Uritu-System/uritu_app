@@ -282,6 +282,8 @@ class _UrituQuechuaViewState extends State<UrituQuechuaView> {
                     size: 40,
                   ),
                   onPressed: () async {
+                    _textEditingController.text = 'Escribiendo...';
+                    _textTranslated = 'Qillqay...';
                     if (recorder.isRecording) {
                       await stop();
                     } else {

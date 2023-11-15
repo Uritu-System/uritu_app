@@ -281,6 +281,8 @@ class _UrituSpanishViewState extends State<UrituSpanishView> {
                     size: 40,
                   ),
                   onPressed: () async {
+                    _textEditingController.text = 'Escribiendo...';
+                    _textTranslated = 'Qillqay...';
                     if (recorder.isRecording) {
                       await stop();
                     } else {

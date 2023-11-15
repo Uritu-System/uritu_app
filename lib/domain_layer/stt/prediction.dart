@@ -1,15 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:uritu_app/common/constants/stt_quechua_url';
 
 Future<String> predictionSpeech(String encodedAudio) async {
-  String url = 'http://34.71.36.238:5000/predictions';
-
   Map<String, dynamic> body = {'audio': encodedAudio};
 
   String jsonBody = json.encode(body);
 
   final http.Response response = await http.post(
-    Uri.parse(url),
+    Uri.parse(sttQuechuaUrl),
     headers: {'Content-Type': 'application/json'},
     body: jsonBody,
   );
