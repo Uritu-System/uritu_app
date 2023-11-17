@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:uritu_app/common/constants/stt_quechua_url';
+import 'package:uritu_app/common/constants/stt_quechua_url.dart';
 
 Future<String> predictionSpeech(String encodedAudio) async {
   Map<String, dynamic> body = {'audio': encodedAudio};

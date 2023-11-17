@@ -2,18 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:uritu_app/common/constants/path_audio.dart';
 import 'package:uritu_app/common/constants/routes.dart';
 import 'package:uritu_app/common/enums/menu_action.dart';
-import 'package:uritu_app/common/theme/color_schemes.dart';
 import 'package:uritu_app/common/theme/font_theme.dart';
 import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 import 'package:uritu_app/domain_layer/stt/prediction.dart';
 import 'package:uritu_app/domain_layer/translation/translation_quechua.dart';
 import 'package:uritu_app/presentation_layer/components/show_log_out_dialog.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:path/path.dart' as p;
 
 class UrituQuechuaView extends StatefulWidget {
   const UrituQuechuaView({super.key});
@@ -33,18 +31,6 @@ class _UrituQuechuaViewState extends State<UrituQuechuaView> {
   bool isRecorderReady = false;
   // initialice text editing controller
   final _textEditingController = TextEditingController();
-
-  Color _updateButtonColor(BuildContext context) {
-    // update Colors depending on theme
-    Color color;
-
-    if (Theme.of(context).brightness == Brightness.light) {
-      color = lightColorScheme.primary;
-    } else {
-      color = darkColorScheme.primary;
-    }
-    return color;
-  }
 
   void _updateTextField(String newText) {
     setState(() {
@@ -96,14 +82,16 @@ class _UrituQuechuaViewState extends State<UrituQuechuaView> {
 
   Future record() async {
     if (!isRecorderReady) return;
-    // if the file doesn't exist create the file
-    Directory directory = Directory(p.dirname(pathToAudio));
-    if (!directory.existsSync()) {
-      directory.createSync();
-    }
+    //get application documents directory
+    Directory directoryAudio = await getApplicationDocumentsDirectory();
+    // get path of directory
+    String appAudioPath = directoryAudio.path;
+    // get audio path
+    String audioPath = '$appAudioPath/audio.wav';
+
     // start recorder
     await recorder.startRecorder(
-      toFile: pathToAudio,
+      toFile: audioPath,
       codec: Codec.pcm16WAV,
     );
   }
@@ -112,8 +100,14 @@ class _UrituQuechuaViewState extends State<UrituQuechuaView> {
     if (!isRecorderReady) return;
     // stop recorder
     await recorder.stopRecorder();
+    //get application documents directory
+    Directory directoryAudio = await getApplicationDocumentsDirectory();
+    // get path of directory
+    String appAudioPath = directoryAudio.path;
+    // get audio path
+    String audioPath = '$appAudioPath/audio.wav';
     // get the file of the audio
-    final audioFile = File(pathToAudio);
+    final audioFile = File(audioPath);
     // encode the audio to the request
     final base64EncodecAudio = base64Encode(await audioFile.readAsBytes());
     // update textfield
