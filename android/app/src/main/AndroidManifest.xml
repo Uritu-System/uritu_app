@@ -6,7 +6,7 @@
     <!-- <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/> -->
     <!-- <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/> -->
     <application
-        android:label="uritu_app"
+        android:label="Uritu"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

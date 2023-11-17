@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:googleapis/speech/v1.dart' as speech;
 import 'package:googleapis_auth/auth_io.dart';
+import 'package:uritu_app/common/constants/stt_google_key.dart';
 
 Future<String> transcribeSpeech(String encodedAudio) async {
   final clientSpeechApi = await _authenticate();
@@ -34,8 +35,7 @@ Future<String> transcribeSpeech(String encodedAudio) async {
 Future<speech.SpeechApi> _authenticate() async {
   /* ***************************** AUTHENTICATION ***************************** */
   // Load the service account key JSON file
-  final jsonCredentials =
-      await rootBundle.loadString('assets/uritu-system-app-172e898d6608.json');
+  final jsonCredentials = await rootBundle.loadString(sttSpanishKey);
 
   // Obtain the credentials using the service account key JSON file
   final accountCredentials =

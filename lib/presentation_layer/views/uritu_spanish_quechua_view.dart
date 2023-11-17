@@ -2,18 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_sound/flutter_sound.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:uritu_app/common/constants/path_audio.dart';
 import 'package:uritu_app/common/constants/routes.dart';
 import 'package:uritu_app/common/enums/menu_action.dart';
-import 'package:uritu_app/common/theme/color_schemes.dart';
 import 'package:uritu_app/common/theme/font_theme.dart';
 import 'package:uritu_app/domain_layer/auth/auth_service.dart';
 import 'package:uritu_app/domain_layer/translation/translation_spanish.dart';
 import 'package:uritu_app/presentation_layer/components/show_log_out_dialog.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:uritu_app/domain_layer/stt/stt.dart';
-import 'package:path/path.dart' as p;
 
 class UrituSpanishView extends StatefulWidget {
   const UrituSpanishView({super.key});
@@ -34,17 +32,6 @@ class _UrituSpanishViewState extends State<UrituSpanishView> {
   // initialice text editing controller
   final _textEditingController = TextEditingController();
 
-  Color _updateButtonColor(BuildContext context) {
-    // update Colors depending on theme
-    Color color;
-    if (Theme.of(context).brightness == Brightness.light) {
-      color = lightColorScheme.secondary;
-    } else {
-      color = darkColorScheme.secondary;
-    }
-    return color;
-  }
-
   void _updateTextField(String newText) {
     setState(() {
       _textEditingController.text = newText;
@@ -62,12 +49,16 @@ class _UrituSpanishViewState extends State<UrituSpanishView> {
     super.initState();
     initRecorder();
     // add listener to text editing controller
-    _textEditingController.addListener(() async {
-      String textUpdate = await translateSpanish(_textEditingController.text);
-      setState(() {
-        _textTranslated = textUpdate;
-      });
-    });
+    _textEditingController.addListener(
+      () async {
+        String textUpdate = await translateSpanish(_textEditingController.text);
+        setState(
+          () {
+            _textTranslated = textUpdate;
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -95,14 +86,16 @@ class _UrituSpanishViewState extends State<UrituSpanishView> {
 
   Future record() async {
     if (!isRecorderReady) return;
-    // if the file doesn't exist create the file
-    Directory directory = Directory(p.dirname(pathToAudio));
-    if (!directory.existsSync()) {
-      directory.createSync();
-    }
+    //get application documents directory
+    Directory directoryAudio = await getApplicationDocumentsDirectory();
+    // get path of directory
+    String appAudioPath = directoryAudio.path;
+    // get audio path
+    String audioPath = '$appAudioPath/audio.wav';
+
     // start recorder
     await recorder.startRecorder(
-      toFile: pathToAudio,
+      toFile: audioPath,
       codec: Codec.pcm16WAV,
     );
   }
@@ -111,8 +104,14 @@ class _UrituSpanishViewState extends State<UrituSpanishView> {
     if (!isRecorderReady) return;
     // stop recorder
     await recorder.stopRecorder();
+    //get application documents directory
+    Directory directoryAudio = await getApplicationDocumentsDirectory();
+    // get path of directory
+    String appAudioPath = directoryAudio.path;
+    // get audio path
+    String audioPath = '$appAudioPath/audio.wav';
     // get the file of the audio
-    final audioFile = File(pathToAudio);
+    final audioFile = File(audioPath);
     // encode the audio to the request
     final base64EncodecAudio = base64Encode(await audioFile.readAsBytes());
     // update textfield
@@ -281,6 +280,8 @@ class _UrituSpanishViewState extends State<UrituSpanishView> {
                     size: 40,
                   ),
                   onPressed: () async {
+                    _textEditingController.text = 'Escribiendo...';
+                    _textTranslated = 'Qillqay...';
                     if (recorder.isRecording) {
                       await stop();
                     } else {
