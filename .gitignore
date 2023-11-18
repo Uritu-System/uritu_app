@@ -32,9 +32,6 @@ migrate_working_dir/
 .pub/
 **android/app/google-services.json
 **assets/uritu-system-app-172e898d6608.json
-**lib/common/constants/stt_google_key.dart
-**lib/common/constants/translator_key.dart
-**lib/common/constants/stt_quechua_url.dart
 /build/
 
 # Symbolication related
@@ -47,6 +44,3 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-assets/uritu-system-app-172e898d6608.json
-lib/common/constants/stt_quechua_url.dart
-lib/common/constants/translator_key.dart
