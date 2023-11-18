@@ -47,3 +47,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+assets/uritu-system-app-172e898d6608.json
+lib/common/constants/stt_quechua_url.dart
+lib/common/constants/translator_key.dart
