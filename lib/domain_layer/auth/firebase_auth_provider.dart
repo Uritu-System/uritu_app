@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:uritu_app/domain_layer/auth/firebase_options.dart';
+import 'package:uritu_app/firebase_options.dart';
 import 'package:uritu_app/data_layer/auth_user_model.dart';
 import 'package:uritu_app/domain_layer/auth/auth_provider.dart';
 import 'package:uritu_app/common/exceptions/auth_exceptions.dart';

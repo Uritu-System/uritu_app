@@ -1,3 +1,4 @@
-const cloudTranslationApiKey = 'AIzaSyBREdPiXiX2AF5uaGGz34U9517aaWW_kbU';
+// To Do: update key
+const cloudTranslationApiKey = 'API KEY';
 const quechuaCodeTranslation = 'qu';
 const spanishCodeTranslation = 'es';

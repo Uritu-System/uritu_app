@@ -1,1 +1,2 @@
-const sttQuechuaUrl = "http://34.71.36.238:5000/predictions";
+// To Do: update route
+const sttQuechuaUrl = "http://11.13.12.123:5000/predictions";

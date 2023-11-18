@@ -1,1 +1,2 @@
-const sttSpanishKey = 'assets/uritu-system-app-172e898d6608.json';
+// To do: update json
+const sttSpanishKey = 'assets/speech-to-text.json';
